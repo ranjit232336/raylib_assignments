@@ -35,12 +35,19 @@ const particlePosX = 120;
 const particlePosY = 0;
 const particleW = 50;
 
+
+function colour() {
+    if (rectX >= particlePosX - stripW && rectX <= particlePosX + particleW) return r.RED;
+    else return r.WHITE;
+
+}
+
 function draw(rectH) {
 
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
     r.DrawRectangle(particlePosX, particlePosY, particleW, rectH, r.BLUE);
-    r.DrawRectangle(rectX, rectY, stripW, rectH, r.WHITE);
+    r.DrawRectangle(rectX, rectY, stripW, rectH, colour());
 
     r.EndDrawing();
 }
