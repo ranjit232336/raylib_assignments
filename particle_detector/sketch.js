@@ -20,7 +20,7 @@ function teardown() {
 let rectX = 0;
 const rectY = 0;
 
-let stripW = 20;
+let stripW = 25;
 let rightMove = true;
 
 function update(windowW) {
@@ -31,13 +31,24 @@ function update(windowW) {
     else rectX--;
 }
 
-const particlePosX = 120;
-const particlePosY = 0;
-const particleW = 50;
+const range1PosX = 120;
+const range1PosY = 0;
+const range1W = 50;
+
+
+
+const range2PosX = 300;
+const range2PosY = 0;
+const range2W = 10;
 
 
 function colour() {
-    if (rectX >= particlePosX - stripW && rectX <= particlePosX + particleW) return r.RED;
+
+    if ((rectX >= range1PosX - stripW && rectX <= range1PosX + range1W) ||
+        rectX >= range2PosX - stripW && rectX <= range2PosX + range2W
+    )
+        return r.RED;
+
     else return r.WHITE;
 
 }
@@ -46,7 +57,9 @@ function draw(rectH) {
 
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
-    r.DrawRectangle(particlePosX, particlePosY, particleW, rectH, r.BLUE);
+    r.DrawRectangle(range1PosX, range1PosY, range1W, rectH, r.BLUE);
+    r.DrawRectangle(range2PosX, range2PosY, range2W, rectH, r.BLUE);
+
     r.DrawRectangle(rectX, rectY, stripW, rectH, colour());
 
     r.EndDrawing();
