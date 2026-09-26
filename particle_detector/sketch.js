@@ -1,7 +1,6 @@
 const r = require("raylib");
 
-const windowW = 500;
-const windowH = 400;
+
 
 function setup(windowW, windowH) {
     r.InitWindow(windowW, windowH, "Moving Detector");
@@ -32,10 +31,17 @@ function update(windowW) {
     else rectX--;
 }
 
+const particlePosX = 120;
+const particlePosY = 0;
+const particleW = 50;
+
 function draw(rectH) {
+
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
+    r.DrawRectangle(particlePosX, particlePosY, particleW, rectH, r.BLUE);
     r.DrawRectangle(rectX, rectY, stripW, rectH, r.WHITE);
+
     r.EndDrawing();
 }
 
