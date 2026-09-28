@@ -23,39 +23,31 @@ function teardown() {
 let scanner1X = 0;
 const scanner1Y = 0;
 let scanner1W = windowW / 10;
-// let scanner1RightMove = true;
 
 
 let scanner2X = windowW / 2;
 const scanner2Y = 0;
 let scanner2W = windowW / 10;
-// let scanner2RightMove = true;
+
 
 const scanner3X = 0;
 let scanner3Y = 0;
 let scanner3H = windowH / 10;
-// let scanner3DownMove = true;
+
 
 let scanner1Velocity = 1;
 let scanner2Velocity = 1;
 let scanner3Velocity = 1;
 
 
-
 const range1W = windowW / 6;
-
 let range1PosX = windowW / 2 - range1W;
 
 const range2PosX = windowW / 2 + windowW / 6;
-// const range2PosY = 0;
 const range2W = range1W / 5;
 
-
 const range3PosY = windowH * (3 / 8);
-// const scanner3Y = 0;
 const range3H = windowH * (1 / 15);
-// let scanner3RightMove = true;
-
 
 function update() {
 
@@ -70,9 +62,6 @@ function update() {
     let scanner3ReachedBorder = scanner3Y + scanner3H > windowH || scanner3Y < 0;
     scanner3Velocity = scanner3ReachedBorder ? -scanner3Velocity : scanner3Velocity;
     scanner3Y += scanner3Velocity;
-
-
-
 
 }
 
@@ -91,54 +80,6 @@ function isOverlap(scannerX, scannerW, rangePosX, rangeW) {
 
 }
 
-// function isOverlap2() {
-
-//     if ((scanner2X >= range2PosX - scanner2W && scanner2X <= range2PosX + range2W)
-
-//     ) return true;
-
-//     else return false;
-
-// }
-
-// function isOverlap3() {
-
-//     if ((scanner3Y >= range3PosY - scanner3H && scanner3Y <= range3PosY + range3H)
-
-//     ) return true;
-
-//     else return false;
-
-// }
-
-// function colour(x) {
-
-//     if (x)
-//         return r.RED;
-
-//     else return r.WHITE;
-
-// }
-
-
-// function colour2() {
-
-//     if (isOverlap2())
-//         return r.RED;
-
-//     else return r.WHITE;
-
-// }
-
-// function colour3() {
-
-//     if (isOverlap3())
-//         return r.RED;
-
-//     else return r.WHITE;
-
-// }
-
 function draw() {
 
     r.BeginDrawing();
@@ -154,7 +95,6 @@ function draw() {
     r.EndDrawing();
 }
 
-
 module.exports = {
 
     setup,
@@ -162,6 +102,5 @@ module.exports = {
     teardown,
     update,
     draw,
-
 
 }
