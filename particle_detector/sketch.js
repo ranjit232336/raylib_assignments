@@ -1,7 +1,7 @@
 const r = require("raylib");
 
-const windowW = 800;
-const windowH = 600;
+const windowW = 50;
+const windowH = 50;
 
 function setup() {
     r.SetTraceLogLevel(r.LOG_NONE);
