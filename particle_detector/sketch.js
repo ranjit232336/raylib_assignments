@@ -1,9 +1,11 @@
 const r = require("raylib");
 
-const windowW = 900;
+const windowW = 800;
 const windowH = 600;
 
 function setup() {
+    r.SetTraceLogLevel(r.LOG_NONE);
+
     r.InitWindow(windowW, windowH, "Moving Detector");
     r.SetTargetFPS(60);
 }
@@ -18,54 +20,27 @@ function teardown() {
     r.CloseWindow();
 }
 
-let strip1X = 0;
-const strip1Y = 0;
-let strip1W = windowW / 10;
-let strip1RightMove = true;
+let scanner1X = 0;
+const scanner1Y = 0;
+let scanner1W = windowW / 10;
+// let scanner1RightMove = true;
 
 
-let strip2X = windowW / 2;
-const strip2Y = 0;
-let strip2W = windowW / 10;
-let strip2RightMove = true;
+let scanner2X = windowW / 2;
+const scanner2Y = 0;
+let scanner2W = windowW / 10;
+// let scanner2RightMove = true;
 
-const strip3X = 0;
-let strip3Y = 0;
-let strip3H = windowH / 10;
-let strip3DownMove = true;
+const scanner3X = 0;
+let scanner3Y = 0;
+let scanner3H = windowH / 10;
+// let scanner3DownMove = true;
 
-
-
-function update() {
-    if (strip1X + strip1W >= windowW / 2) strip1RightMove = false;
-    if (strip1X <= 0) strip1RightMove = true;
-
-    if (strip1RightMove) strip1X++;
-    else strip1X--;
-
-    if (strip2X + strip2W >= windowW) strip2RightMove = false;
-    if (strip2X <= windowW / 2) strip2RightMove = true;
-
-    if (strip2RightMove) strip2X += 2;
-    else strip2X -= 2;
-
-    if (strip3Y + strip3H >= windowH) strip3DownMove = false;
-    if (strip3Y <= 0) strip3DownMove = true;
-
-    if (strip3DownMove) strip3Y++;
-    else strip3Y--;
-}
-
-// const range1PosY = 0;
+let scanner1Velocity = 1;
+let scanner2Velocity = 1;
+let scanner3Velocity = 1;
 
 
-function range1Pos(windowW) {
-    range1PosX = windowW / 2;
-}
-
-function range2Pos(windowW) {
-    range2PosX = windowW / 2 + range1W;
-}
 
 const range1W = windowW / 6;
 
@@ -77,67 +52,92 @@ const range2W = range1W / 5;
 
 
 const range3PosY = windowH * (3 / 8);
-// const strip3Y = 0;
+// const scanner3Y = 0;
 const range3H = windowH * (1 / 15);
-// let strip3RightMove = true;
+// let scanner3RightMove = true;
 
-function isOverlap1() {
 
-    if ((strip1X >= range1PosX - strip1W && strip1X <= range1PosX + range1W)
+function update() {
 
-    ) return true;
+    let scanner1ReachedBorder = scanner1X + scanner1W > windowW / 2 || scanner1X < 0;
+    scanner1Velocity = scanner1ReachedBorder ? -scanner1Velocity : scanner1Velocity;
+    scanner1X += scanner1Velocity;
 
-    else return false;
+    let scanner2ReachedBorder = scanner2X + scanner2W > windowW || scanner2X < windowW / 2;
+    scanner2Velocity = scanner2ReachedBorder ? -scanner2Velocity : scanner2Velocity;
+    scanner2X += scanner2Velocity;
 
-}
+    let scanner3ReachedBorder = scanner3Y + scanner3H > windowH || scanner3Y < 0;
+    scanner3Velocity = scanner3ReachedBorder ? -scanner3Velocity : scanner3Velocity;
+    scanner3Y += scanner3Velocity;
 
-function isOverlap2() {
 
-    if ((strip2X >= range2PosX - strip2W && strip2X <= range2PosX + range2W)
 
-    ) return true;
-
-    else return false;
-
-}
-
-function isOverlap3() {
-
-    if ((strip3Y >= range3PosY - strip3H && strip3Y <= range3PosY + range3H)
-
-    ) return true;
-
-    else return false;
 
 }
 
+function colour(scannerX, scannerW, rangePosX, rangeW) {
 
+    return isOverlap(scannerX, scannerW, rangePosX, rangeW) ? r.RED : r.WHITE;
 
-function colour1() {
-
-    if (isOverlap1())
-        return r.RED;
-
-    else return r.WHITE;
-
-}
-function colour2() {
-
-    if (isOverlap2())
-        return r.RED;
-
-    else return r.WHITE;
 
 }
 
-function colour3() {
+function isOverlap(scannerX, scannerW, rangePosX, rangeW) {
 
-    if (isOverlap3())
-        return r.RED;
+    return ((scannerX >= rangePosX - scannerW && scannerX <= rangePosX + rangeW));
 
-    else return r.WHITE;
+
 
 }
+
+// function isOverlap2() {
+
+//     if ((scanner2X >= range2PosX - scanner2W && scanner2X <= range2PosX + range2W)
+
+//     ) return true;
+
+//     else return false;
+
+// }
+
+// function isOverlap3() {
+
+//     if ((scanner3Y >= range3PosY - scanner3H && scanner3Y <= range3PosY + range3H)
+
+//     ) return true;
+
+//     else return false;
+
+// }
+
+// function colour(x) {
+
+//     if (x)
+//         return r.RED;
+
+//     else return r.WHITE;
+
+// }
+
+
+// function colour2() {
+
+//     if (isOverlap2())
+//         return r.RED;
+
+//     else return r.WHITE;
+
+// }
+
+// function colour3() {
+
+//     if (isOverlap3())
+//         return r.RED;
+
+//     else return r.WHITE;
+
+// }
 
 function draw() {
 
@@ -147,9 +147,9 @@ function draw() {
     r.DrawRectangle(range2PosX, 0, range2W, windowH, r.BLUE);
     r.DrawRectangle(0, range3PosY, windowW, range3H, r.BLUE);
 
-    r.DrawRectangle(strip1X, strip1Y, strip1W, windowH, colour1());
-    r.DrawRectangle(strip2X, strip2Y, strip2W, windowH, colour2());
-    r.DrawRectangle(strip3X, strip3Y, windowW, strip3H, colour3());
+    r.DrawRectangle(scanner1X, scanner1Y, scanner1W, windowH, colour(scanner1X, scanner1W, range1PosX, range1W));
+    r.DrawRectangle(scanner2X, scanner2Y, scanner2W, windowH, colour(scanner2X, scanner2W, range2PosX, range2W));
+    r.DrawRectangle(scanner3X, scanner3Y, windowW, scanner3H, colour(scanner3Y, scanner3H, range3PosY, range3H));
 
     r.EndDrawing();
 }
@@ -162,7 +162,6 @@ module.exports = {
     teardown,
     update,
     draw,
-    range1Pos,
-    range2Pos
+
 
 }
