@@ -1,26 +1,18 @@
 const sketch = require("./sketch");
 
-
-
 function loop() {
+  while (sketch.running()) {
+    sketch.update();
+    sketch.draw();
+  }
 
-    while (sketch.running()) {
-        sketch.update();
-        sketch.draw();
-
-    }
-
-    sketch.teardown();
-
+  sketch.teardown();
 }
 
 function main() {
+  sketch.setup();
 
-    sketch.setup();
-
-    loop();
-
+  loop();
 }
 
 main();
-
